@@ -31,17 +31,47 @@ public:
     vector<ofVideoPlayer>    videos;
     const string        VIDEO_FOLDER = "videos/";
     const string        VIDEO_EXT = ".mp4";
-    const string        VIDEO_FILES[5] = {
-        "clouds.mp4",
-        "flower01.mp4",
-        "flower02.mp4",
-        "flower03.mp4",
-        "flower04.mp4"
+    const string        VIDEO_FILES[9] = {
+        "goldengate01",
+        "goldengate02",
+        "clouds",
+        "flower01",
+        "flower02",
+        "flower03",
+        "flower04",
+        "jellyfish01",
+        "jellyfish02",
+//        "jellyfish03",
+//        "jellyfish04",
+//        "jellyfish05",
+//        "jellyfish06",
+//        "jellyfish07",
+//        "jellyfish08",
+//        "jellyfish09",
+//        "sutro01",
+//        "pattern01",
+//        "pattern06",
+//        "pattern02",
+//        "pattern03",
+//        "pattern04",
+//        "pattern05",
+//        "lavalamp",
+//        "coral01",
+//        "waves01",
+//        "plant01",
+//        "plant02",
+//        "plant03",
+//        "sunset01",
+//        "milkyway01",
+//        "milkyway02",
+//        "ocean01",
+//        "ocean02"
     };
     int                 VIDEO_ARRAY_SIZE;
     int                 currentBitmapIdx;
     int                 posX;
     int                 vidW, vidH;
+    float               scale;
     bool                isCenterKey(int key);
     
     // mosaic
@@ -58,6 +88,7 @@ public:
     // shuffle vids
     void nextWord();
     bool                isNextKey(int key);
+    bool                bw;
     
     bool                pause;
     

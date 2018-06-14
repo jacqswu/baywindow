@@ -9,7 +9,9 @@ void ofApp::setup(){
     loadVideos();
     currentBitmapIdx = 0;
     posX = 0;
+    scale = 1.0;
     res = 25.0;
+    bw = false;
     pause = false;
     
     //    mainOutputSyphonServer.setName("Screen Output");
@@ -19,12 +21,13 @@ void ofApp::setup(){
 void ofApp::loadVideos() {
     videos.resize(VIDEO_ARRAY_SIZE);
     for ( int i=0; i<VIDEO_ARRAY_SIZE; i++ ) {
-        //        videos[i].load(VIDEO_FOLDER+VIDEO_FILES[i]+VIDEO_EXT);
-        videos[i].load(VIDEO_FOLDER+VIDEO_FILES[i]);
+        //with extension
+        videos[i].load(VIDEO_FOLDER+VIDEO_FILES[i]+VIDEO_EXT);
+//        videos[i].load(VIDEO_FOLDER+VIDEO_FILES[i]);
+        
         videos[i].setVolume(0);
         videos[i].setPixelFormat(OF_PIXELS_RGBA);
         videos[i].play();
-        //        wordBitmaps[i].setImageType(OF_IMAGE_GRAYSCALE);
     }
 }
 
@@ -43,7 +46,7 @@ void ofApp::draw(){
     vidH = int(videos[currentBitmapIdx].getHeight());
     
     // resize videos from 1280x720 to screen height
-    videos[currentBitmapIdx].draw(posX, 0, ofGetHeight()*vidW/vidH, ofGetHeight());
+    videos[currentBitmapIdx].draw(posX, 0, ofGetHeight()*scale*vidW/vidH, ofGetHeight()*scale);
     
     // now, take a "screenshot" of the frame
     screenImage.grabScreen(0,0,ofGetWidth(),ofGetHeight());
@@ -83,18 +86,19 @@ void ofApp::draw(){
             // TOP TRIANGLE ----------------------------------------------
             
             ofColor color1 = screenImage.getColor(x*5+2,y*5);
-            //            color1.setSaturation(0);
+            if(bw){
+                color1.setSaturation(0);
+            }
             //                        color1.invert();
             
             //Force threshold
-            /*
-             if((color1.r+color1.g+color1.b) < 382){
-             color1 = 0;
-             }
-             else{
-             color1 = 255;
-             }
-             */
+//             if((color1.r+color1.g+color1.b) < 382){
+//             color1 = 0;
+//             }
+//             else{
+//             color1 = 255;
+//             }
+
             
             //            color1.a = alpha;
             ofSetColor(color1);
@@ -104,18 +108,19 @@ void ofApp::draw(){
             // RIGHT TRIANGLE ----------------------------------------------
             
             ofColor color2 = screenImage.getColor(x*5+3,y*5+2);
-            //            color2.setSaturation(0);
+            if(bw){
+                color2.setSaturation(0);
+            }
             //                        color2.invert();
             
             //Force threshold
-            /*
-             if((color2.r+color2.g+color2.b) < 382){
-             color2 = 0;
-             }
-             else{
-             color2 = 255;
-             }
-             */
+//             if((color2.r+color2.g+color2.b) < 382){
+//             color2 = 0;
+//             }
+//             else{
+//             color2 = 255;
+//             }
+
             
             //            color2.a = alpha;
             ofSetColor(color2);
@@ -124,18 +129,19 @@ void ofApp::draw(){
             // BOTTOM TRIANGLE ----------------------------------------------
             
             ofColor color3 = screenImage.getColor(x*5+3,y*5+4);
-            //            color3.setSaturation(0);
+            if(bw){
+                color3.setSaturation(0);
+            }
             //                        color3.invert();
             
             //Force threshold
-            /*
-             if((color3.r+color3.g+color3.b) < 382){
-             color3 = 0;
-             }
-             else{
-             color3 = 255;
-             }
-             */
+//             if((color3.r+color3.g+color3.b) < 382){
+//             color3 = 0;
+//             }
+//             else{
+//             color3 = 255;
+//             }
+
             
             //            color3.a = alpha;
             ofSetColor(color3);
@@ -144,18 +150,19 @@ void ofApp::draw(){
             // LEFT TRIANGLE ----------------------------------------------
             
             ofColor color4 = screenImage.getColor(x*5,y*5+2);
-            //            color4.setSaturation(0);
+            if(bw){
+                color4.setSaturation(0);
+            }
             //                        color4.invert();
             
             //Force threshold
-            /*
-             if((color4.r+color4.g+color4.b) < 382){
-             color4 = 0;
-             }
-             else{
-             color4 =255;
-             }
-             */
+//             if((color4.r+color4.g+color4.b) < 382){
+//             color4 = 0;
+//             }
+//             else{
+//             color4 =255;
+//             }
+
             //            color4.a = alpha;
             ofSetColor(color4);
             ofDrawTriangle(x * width, y * height, x * width + width/2, y * height + height/2, x * width, y * height + height);
@@ -205,9 +212,27 @@ void ofApp::keyPressed(int key){
         posX += 10;
     }
     
+    // + -: video scale
+    else if(key == '='){
+        scale += 0.1;
+    }
+    else if(key == '-'){
+        scale -= 0.1;
+    }
+    
     // 'C': center video
     else if(isCenterKey(key)) {
-        posX = int((ofGetHeight()*vidW/vidH)/2)*-1;
+        posX = int((ofGetWidth() - ofGetHeight()*vidW/vidH)/2);
+    }
+    
+    // 'Z': zero video
+    else if(key == 'z') {
+        posX = 0;
+    }
+    
+    // 'B': black and white
+    else if(key == 'b') {
+        bw = !bw;
     }
     
     // 'N': next word bitmap
@@ -218,6 +243,13 @@ void ofApp::keyPressed(int key){
     // 'P': print
     else if (isPrintKey(key)) {
         printImage();
+    }
+    
+    // 'R': reset
+    else if (key == 'r') {
+        posX = 0;
+        res = 25.0;
+        scale = 1.0;
     }
 }
 
