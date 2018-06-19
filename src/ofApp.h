@@ -31,66 +31,59 @@ public:
     vector<ofVideoPlayer>    videos;
     const string        VIDEO_FOLDER = "videos/";
     const string        VIDEO_EXT = ".mp4";
-    const string        VIDEO_FILES[9] = {
-        "goldengate01",
-        "goldengate02",
-        "clouds",
-        "flower01",
-        "flower02",
-        "flower03",
-        "flower04",
-        "jellyfish01",
-        "jellyfish02",
-//        "jellyfish03",
-//        "jellyfish04",
-//        "jellyfish05",
-//        "jellyfish06",
-//        "jellyfish07",
-//        "jellyfish08",
-//        "jellyfish09",
-//        "sutro01",
-//        "pattern01",
-//        "pattern06",
-//        "pattern02",
-//        "pattern03",
-//        "pattern04",
-//        "pattern05",
-//        "lavalamp",
-//        "coral01",
-//        "waves01",
-//        "plant01",
-//        "plant02",
-//        "plant03",
-//        "sunset01",
-//        "milkyway01",
-//        "milkyway02",
-//        "ocean01",
-//        "ocean02"
+    const string        VIDEO_FILES[1] = {
+        "Pexels_Koi",
+//        "Pexels_Jellyfish",
+//        "Pexels_Clouds",
+//        "Fish-Tank",
+//        "Candolim-Beach",
+//        "Ground-Zero",
+//        "Skate",
+//        "Flowers",
+//        "Summer Breeze",
+//        "Milky Way Glowing At Night",
+//        "Tulips_are_Here",
+//        "Red",
+//        "Oculus",
     };
     int                 VIDEO_ARRAY_SIZE;
     int                 currentBitmapIdx;
-    int                 posX;
+    int                 posX, posY;
     int                 vidW, vidH;
     float               scale;
-    bool                isCenterKey(int key);
     
     // mosaic
     float               res;
+    bool                resToggle;
     ofImage             screenImage;
+    
+    // dev tools
+    void drawDevStats();
+    bool                DEV_DRAW_STATS;
+    const int           DEV_LINE_X = 15;
+    const int           DEV_LINE_Y = 15;
     
     // printout
     void printImage();
     ofImage             imgPrint;
-    bool                isPrintKey(int key);
     const string        PRINT_FOLDER_NAME = "prints/";
     const string        PRINT_EXT = ".png";
     
     // shuffle vids
     void nextWord();
-    bool                isNextKey(int key);
     bool                bw;
-    
     bool                pause;
+    
+    // keys
+    bool                isDevKey(int key);
+    bool                isToggleKey(int key);
+    bool                isPauseKey(int key);
+    bool                isCenterKey(int key);
+    bool                isPrintKey(int key);
+    bool                isNextKey(int key);
+    bool                isResetKey(int key);
+    bool                isBlackWhiteKey(int key);
+    bool                isZeroKey(int key);
     
     // unused
     ofFbo fbo;
